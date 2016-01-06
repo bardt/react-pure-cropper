@@ -1,0 +1,28 @@
+{
+  "name": "react-pure-cropper",
+  "version": "1.0.0",
+  "description": "A set of React.js stateless components for image cropping and preview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bardt/react-pure-cropper.git"
+  },
+  "keywords": [
+    "react",
+    "cropper",
+    "image",
+    "preview",
+    "stateless",
+    "redux",
+    "pure"
+  ],
+  "author": "Roman Salnikov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bardt/react-pure-cropper/issues"
+  },
+  "homepage": "https://github.com/bardt/react-pure-cropper#readme"
+}
