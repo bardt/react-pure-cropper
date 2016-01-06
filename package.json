@@ -4,7 +4,11 @@
   "description": "A set of React.js stateless components for image cropping and preview",
   "main": "index.js",
   "scripts": {
+    "demo": "./node_modules/.bin/tooling watch --entry ./example/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react": "0.14.x"
   },
   "repository": {
     "type": "git",
@@ -24,5 +28,12 @@
   "bugs": {
     "url": "https://github.com/bardt/react-pure-cropper/issues"
   },
-  "homepage": "https://github.com/bardt/react-pure-cropper#readme"
+  "homepage": "https://github.com/bardt/react-pure-cropper#readme",
+  "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6",
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^3.0.0",
+    "eslint-plugin-react": "^3.14.0",
+    "tooling": "^0.6.2"
+  }
 }
