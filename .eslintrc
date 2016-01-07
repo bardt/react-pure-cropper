@@ -9,7 +9,9 @@
     "node": true
   },
   "parser": "babel-eslint",
-  "rules": {},
+  "rules": {
+    "comma-dangle": [0]
+  },
   "plugins": [
     "react"
   ]
