@@ -8,7 +8,7 @@ class CropperDemo extends Component {
       top: 10,
       left: 20,
       width: 100,
-      height: 200
+      height: 70
     };
 
     return (
