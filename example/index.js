@@ -7,8 +7,8 @@ class CropperDemo extends Component {
     const cropArea = {
       top: 10,
       left: 20,
-      width: 100,
-      height: 70
+      width: 70,
+      height: 100
     };
 
     return (

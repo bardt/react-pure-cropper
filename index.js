@@ -22,11 +22,12 @@ export default class PureCropper extends Component {
     const holderSize = this.getHolderSize();
     const holderAspectRatio = holderSize.width / holderSize.height;
 
-    if (selectionAspectRatio >= holderAspectRatio) {
-      const width = holderSize.width * 0.6;
-      const left = (holderSize.width - width) / 2;
-      const height = width / selectionAspectRatio;
-      const top = (holderSize.height - height) / 2;
+
+    function gatherAreaSize(containerSize, aspectRatio) {
+      const width = containerSize.width * 0.6;
+      const left = (containerSize.width - width) / 2;
+      const height = width / aspectRatio;
+      const top = (containerSize.height - height) / 2;
       return {
         width,
         height,
@@ -35,15 +36,20 @@ export default class PureCropper extends Component {
       };
     }
 
-    const height = holderSize.height * 0.6;
-    const top = (holderSize.height - height) / 2;
-    const width = height * selectionAspectRatio;
-    const left = (holderSize.width - width) / 2;
+    if (selectionAspectRatio >= holderAspectRatio) {
+      return gatherAreaSize(holderSize, selectionAspectRatio);
+    }
+
+    const countedArea = gatherAreaSize({
+      width: holderSize.height,
+      height: holderSize.width
+    }, 1 / selectionAspectRatio);
+
     return {
-      width,
-      height,
-      left,
-      top
+      top: countedArea.left,
+      left: countedArea.top,
+      width: countedArea.height,
+      height: countedArea.width
     };
   }
 
