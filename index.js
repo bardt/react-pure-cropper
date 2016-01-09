@@ -4,8 +4,12 @@ import './styles/index.css';
 
 export default class PureCropper extends Component {
   static propTypes = {
+    // URL or data-url of image to be cropped
     originalImage: PropTypes.string.isRequired,
-    cropArea: PropTypes.object
+    // Area in real pixels which is desired to be cropped
+    cropArea: PropTypes.object,
+    // Visual selection position and size
+    selectionPosition: PropTypes.object
   }
 
   getHolderSize() {
