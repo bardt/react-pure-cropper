@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import './styles/index.css';
+import PureCropperPreview, { getTransformations } from './preview';
 
 export default class PureCropper extends Component {
   static propTypes = {
@@ -15,8 +16,8 @@ export default class PureCropper extends Component {
   getHolderSize() {
     // @TODO: hardcoded in styles. Count from DOM ?
     return {
-      width: 400,
-      height: 300
+      width: 500,
+      height: 1000
     };
   }
 
@@ -59,26 +60,54 @@ export default class PureCropper extends Component {
 
   render() {
     const {
+      cropArea,
       originalImage
     } = this.props;
 
-    const selectionArea = this.countSelectionArea();
-    const selectionStyle = {
-      left: selectionArea.left,
-      top: selectionArea.top,
-      width: selectionArea.width,
-      height: selectionArea.height
+    const holderStyle = {
+      ...this.getHolderSize(),
+      background: 'cadetblue',
+      position: 'relative',
+      overflow: 'hidden'
     };
 
+    const previewStyle = {
+      ...this.countSelectionArea(),
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: `translate(-50%, -50%)`,
+      borderRadius: '50%',
+      border: '1px solid black'
+    };
+
+    const {
+      originX,
+      originY,
+      scale
+    } = getTransformations(cropArea, previewStyle);
+
+    const backgroundStyle = {
+      transformOrigin: `${originX}px ${originY}px`,
+      transform: `
+        translate(
+          ${ holderStyle.width / 2 - originX }px,
+          ${ holderStyle.height / 2 - originY }px
+        )
+        scale(${scale})
+      `
+    };
+
+
     return (
-      <div ref="holder" className="image-holder">
-        <div className="original-image">
-          <img src={ originalImage }/>
-        </div>
-        <div className="overlay"></div>
-        <div className="selection" style={ selectionStyle }>
-          <img src={ originalImage }/>
-        </div>
+      <div style={ holderStyle }>
+        <img src={ originalImage } style={ backgroundStyle }/>
+        <div className="overlay"/>
+        <PureCropperPreview
+          cropArea={ cropArea }
+          originalURL={ originalImage }
+          style={ previewStyle }
+        />
       </div>
     );
   }
