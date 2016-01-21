@@ -5,21 +5,30 @@ import PureCropperPreview from '../preview';
 
 class CropperDemo extends Component {
   render() {
+    const url = 'http://fengyuanchen.github.io/cropper/img/picture.jpg';
+
     const cropArea = {
-      top: 10,
-      left: 20,
-      width: 70,
-      height: 100
+      left: 700,
+      top: 100,
+      width: 400,
+      height: 400
     };
 
     return (
       <div>
         <PureCropperPreview
           style={
-            { width: 80 }
+            { width: 200, height: 200 }
           }
           cropArea={ cropArea }
-          originalURL="http://fengyuanchen.github.io/cropper/img/picture.jpg"
+          originalURL={ url }
+        />
+        <PureCropperPreview
+          style={
+            { width: 100, height: 100 }
+          }
+          cropArea={ cropArea }
+          originalURL={ url }
         />
         <PureCropper
           originalImage="http://fengyuanchen.github.io/cropper/img/picture.jpg"
