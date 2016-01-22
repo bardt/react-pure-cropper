@@ -100,8 +100,11 @@ export default class PureCropper extends Component {
 
 
     return (
-      <div style={ holderStyle }>
-        <img src={ originalImage } style={ backgroundStyle }/>
+      <div style={ holderStyle } >
+        <img
+          src={ originalImage }
+          style={ backgroundStyle }
+        />
         <div className="overlay"/>
         <PureCropperPreview
           cropArea={ cropArea }

@@ -1,17 +1,27 @@
 import React, { PropTypes, Component } from 'react';
 
+export const getScale = (previewSize, cropArea) => {
+  return previewSize.width / cropArea.width;
+};
+
+export const getOrigin = (cropArea) => {
+  return {
+    x: cropArea.left + cropArea.width / 2,
+    y: cropArea.top + cropArea.height / 2
+  };
+};
+
 export const getTransformations = (cropArea, containerSize) => {
-  const scale = containerSize.width / cropArea.width;
-  const originX = cropArea.left + cropArea.width / 2;
-  const originY = cropArea.top + cropArea.height / 2;
+  const scale = getScale(containerSize, cropArea);
+  const origin = getOrigin(cropArea);
 
   // Move crop area center into container center
-  const translateX = containerSize.width / 2 - originX;
-  const translateY = containerSize.height / 2 - originY;
+  const translateX = containerSize.width / 2 - origin.x;
+  const translateY = containerSize.height / 2 - origin.y;
 
   return {
-    originX,
-    originY,
+    originX: origin.x,
+    originY: origin.y,
     translateX,
     translateY,
     scale
