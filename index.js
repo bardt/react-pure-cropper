@@ -3,6 +3,67 @@ import React, { Component, PropTypes } from 'react';
 import './styles/index.css';
 import PureCropperPreview, { getTransformations } from './preview';
 
+export const normalizeArea = (cropArea, originalImageSize, minSize = { width: 0, height: 0 }) => {
+  let { top, left, width, height } = cropArea;
+
+  // Shrink
+  if (width < minSize.width) {
+    width = minSize.width;
+  }
+
+  if (height < minSize.height) {
+    height = minSize.height;
+  }
+
+  // Keep inside of original image
+  if (width > originalImageSize.width) {
+    width = originalImageSize.width;
+  }
+
+  if (height > originalImageSize.height) {
+    height = originalImageSize.height;
+  }
+
+  if (left < 0) {
+    left = 0;
+  }
+
+  if (top < 0) {
+    top = 0;
+  }
+
+  if (left > (originalImageSize.width - width)) {
+    left = originalImageSize.width - width;
+  }
+
+  if (top > (originalImageSize.height - height)) {
+    top = originalImageSize.height - height;
+  }
+
+  return {
+    top,
+    left,
+    height,
+    width
+  };
+};
+
+export const unsafeZoom = (cropArea, zoomAmount) => {
+  const { top, left, width, height } = cropArea;
+  const zoomedArea = {
+    width: width + zoomAmount,
+    height: height + zoomAmount,
+    top: top - Math.floor(zoomAmount / 2),
+    left: left - Math.floor(zoomAmount / 2)
+  };
+
+  return zoomedArea;
+};
+
+export const zoom = (cropArea, zoomAmount, originalImageSize, minSize) => {
+  return normalizeArea(unsafeZoom(cropArea, zoomAmount), originalImageSize, minSize);
+};
+
 export default class PureCropper extends Component {
   static propTypes = {
     // URL or data-url of image to be cropped
