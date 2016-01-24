@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import PureCropper, { unsafeZoom } from '../index.js';
+import PureCropper, { zoom } from '../index.js';
 import PureCropperPreview from '../preview';
 
 class CropperDemo extends Component {
@@ -21,7 +21,7 @@ class CropperDemo extends Component {
   zoom(amount) {
     const { cropArea } = this.state;
     this.setState({
-      cropArea: unsafeZoom(cropArea, amount, { width: 500, height: 1000 })
+      cropArea: zoom(cropArea, amount, { width: 1280, height: 720 })
     });
   }
 
