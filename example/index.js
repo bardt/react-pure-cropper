@@ -1,18 +1,41 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import PureCropper from '../index.js';
+import PureCropper, { unsafeZoom } from '../index.js';
 import PureCropperPreview from '../preview';
 
 class CropperDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cropArea: {
+        left: 700,
+        top: 100,
+        width: 400,
+        height: 400
+      }
+    };
+    this.zoomIn = this.zoomIn.bind(this);
+    this.zoomOut = this.zoomOut.bind(this);
+  }
+
+  zoom(amount) {
+    const { cropArea } = this.state;
+    this.setState({
+      cropArea: unsafeZoom(cropArea, amount, { width: 500, height: 1000 })
+    });
+  }
+
+  zoomIn() {
+    this.zoom(-1);
+  }
+
+  zoomOut() {
+    this.zoom(1);
+  }
+
   render() {
     const url = 'http://fengyuanchen.github.io/cropper/img/picture.jpg';
-
-    const cropArea = {
-      left: 700,
-      top: 100,
-      width: 400,
-      height: 400
-    };
+    const { cropArea } = this.state;
 
     return (
       <div>
@@ -30,8 +53,10 @@ class CropperDemo extends Component {
           cropArea={ cropArea }
           originalURL={ url }
         />
+        <button onClick={ this.zoomOut }>-</button>
+        <button onClick={ this.zoomIn }>+</button>
         <PureCropper
-          originalImage="http://fengyuanchen.github.io/cropper/img/picture.jpg"
+          originalImage={ url }
           cropArea={ cropArea }
         />
       </div>
