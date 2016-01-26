@@ -21,6 +21,7 @@ class CropperDemo extends Component {
   zoom(amount) {
     const { cropArea } = this.state;
     this.setState({
+      // @TODO: Get original image size somehow
       cropArea: zoom(cropArea, amount, { width: 1280, height: 720 })
     });
   }
@@ -58,6 +59,12 @@ class CropperDemo extends Component {
         <PureCropper
           originalImage={ url }
           cropArea={ cropArea }
+          style={
+            {
+              width: 500,
+              height: 1000
+            }
+          }
         />
       </div>
     );

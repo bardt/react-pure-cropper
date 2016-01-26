@@ -71,21 +71,18 @@ export default class PureCropper extends Component {
     // Area in real pixels which is desired to be cropped
     cropArea: PropTypes.object,
     // Visual selection position and size
-    selectionPosition: PropTypes.object
-  }
+    selectionPosition: PropTypes.object,
 
-  getHolderSize() {
-    // @TODO: hardcoded in styles. Count from DOM ?
-    return {
-      width: 500,
-      height: 1000
-    };
+    style: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired
+    }).isRequired
   }
 
   countSelectionArea() {
     const { cropArea } = this.props;
     const selectionAspectRatio = cropArea.width / cropArea.height;
-    const holderSize = this.getHolderSize();
+    const holderSize = this.props.style;
     const holderAspectRatio = holderSize.width / holderSize.height;
 
 
@@ -122,11 +119,12 @@ export default class PureCropper extends Component {
   render() {
     const {
       cropArea,
-      originalImage
+      originalImage,
+      style
     } = this.props;
 
     const holderStyle = {
-      ...this.getHolderSize(),
+      ...style,
       background: 'cadetblue',
       position: 'relative',
       overflow: 'hidden'
