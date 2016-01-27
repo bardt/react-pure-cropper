@@ -65,6 +65,7 @@ class CropperDemo extends Component {
               height: 1000
             }
           }
+          onZoom={ this::this.zoom }
         />
       </div>
     );

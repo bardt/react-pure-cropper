@@ -76,7 +76,13 @@ export default class PureCropper extends Component {
     style: PropTypes.shape({
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+
+    onZoom: PropTypes.func
+  }
+
+  static defaultProps = {
+    onZoom: () => undefined
   }
 
   countSelectionArea() {
@@ -114,6 +120,14 @@ export default class PureCropper extends Component {
       width: countedArea.height,
       height: countedArea.width
     };
+  }
+
+  handleMouseWheel(event) {
+    event.preventDefault();
+    const { deltaX, deltaY } = event;
+    const significantDelta = Math.abs(deltaX) > Math.abs(deltaY) ? deltaX : deltaY;
+
+    this.props.onZoom(significantDelta);
   }
 
   render() {
@@ -157,9 +171,8 @@ export default class PureCropper extends Component {
       `
     };
 
-
     return (
-      <div style={ holderStyle } >
+      <div style={ holderStyle } onWheel={ this::this.handleMouseWheel }>
         <img
           src={ originalImage }
           style={ backgroundStyle }
