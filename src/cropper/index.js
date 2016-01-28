@@ -1,27 +1,36 @@
 import React, { Component, PropTypes } from 'react';
 
-import './styles/index.css';
-import PureCropperPreview, { getTransformations } from './preview';
+import PureCropperPreview, { getTransformations } from '../preview';
 
-export const normalizeArea = (cropArea, originalImageSize, minSize = { width: 0, height: 0 }) => {
+const defaultMinSize = {
+  width: 1,
+  height: 1
+};
+
+export const normalizeArea = (cropArea, originalSize, minSize = defaultMinSize) => {
   let { top, left, width, height } = cropArea;
+  const aspectRatio = width / height;
 
   // Shrink
   if (width < minSize.width) {
     width = minSize.width;
+    height = Math.ceil(width / aspectRatio);
   }
 
   if (height < minSize.height) {
     height = minSize.height;
+    width = Math.ceil(height * aspectRatio);
   }
 
   // Keep inside of original image
-  if (width > originalImageSize.width) {
-    width = originalImageSize.width;
+  if (width > originalSize.width) {
+    width = originalSize.width;
+    height = Math.floor(width / aspectRatio);
   }
 
-  if (height > originalImageSize.height) {
-    height = originalImageSize.height;
+  if (height > originalSize.height) {
+    height = originalSize.height;
+    width = Math.floor(height * aspectRatio);
   }
 
   if (left < 0) {
@@ -32,12 +41,12 @@ export const normalizeArea = (cropArea, originalImageSize, minSize = { width: 0,
     top = 0;
   }
 
-  if (left > (originalImageSize.width - width)) {
-    left = originalImageSize.width - width;
+  if (left > (originalSize.width - width)) {
+    left = originalSize.width - width;
   }
 
-  if (top > (originalImageSize.height - height)) {
-    top = originalImageSize.height - height;
+  if (top > (originalSize.height - height)) {
+    top = originalSize.height - height;
   }
 
   return {

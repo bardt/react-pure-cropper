@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "demo": "./node_modules/.bin/tooling watch --entry ./example/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc --reporter=lcov ava"
   },
   "peerDependencies": {
     "react": "0.14.x"
@@ -30,10 +30,13 @@
   },
   "homepage": "https://github.com/bardt/react-pure-cropper#readme",
   "devDependencies": {
+    "ava": "^0.11.0",
     "babel-eslint": "^5.0.0-beta6",
+    "deep-freeze": "0.0.1",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^3.0.0",
     "eslint-plugin-react": "^3.14.0",
+    "nyc": "^5.5.0",
     "tooling": "^0.6.2"
   }
 }

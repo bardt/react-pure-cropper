@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import PureCropper, { zoom } from '../index.js';
-import PureCropperPreview from '../preview';
+import PureCropper, { zoom } from '../src/cropper';
+import PureCropperPreview from '../src/preview';
 
 class CropperDemo extends Component {
   constructor(props) {
@@ -20,9 +20,11 @@ class CropperDemo extends Component {
 
   zoom(amount) {
     const { cropArea } = this.state;
+    const newCropArea = zoom(cropArea, amount, { width: 1280, height: 720 });
+    console.log(JSON.stringify(newCropArea, null, 4), JSON.stringify(cropArea, null, 4));
     this.setState({
       // @TODO: Get original image size somehow
-      cropArea: zoom(cropArea, amount, { width: 1280, height: 720 })
+      cropArea: newCropArea
     });
   }
 
