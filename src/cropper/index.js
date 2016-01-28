@@ -7,9 +7,8 @@ const defaultMinSize = {
   height: 1
 };
 
-export const normalizeArea = (cropArea, originalSize, minSize = defaultMinSize) => {
+export const normalizeArea = (cropArea, aspectRatio, originalSize, minSize = defaultMinSize) => {
   let { top, left, width, height } = cropArea;
-  const aspectRatio = width / height;
 
   // Shrink
   if (width < minSize.width) {
@@ -57,20 +56,39 @@ export const normalizeArea = (cropArea, originalSize, minSize = defaultMinSize) 
   };
 };
 
-export const unsafeZoom = (cropArea, zoomAmount) => {
+export const unsafeZoom = (cropArea, aspectRatio, zoomAmount) => {
   const { top, left, width, height } = cropArea;
-  const zoomedArea = {
-    width: width + zoomAmount,
-    height: height + zoomAmount,
-    top: top - Math.floor(zoomAmount / 2),
-    left: left - Math.floor(zoomAmount / 2)
+
+  const getSizes = (significantSize) => {
+    const secondaryRatio = Math.min(aspectRatio, 1 / aspectRatio);
+
+    return {
+      main: significantSize + zoomAmount,
+      secondary: (significantSize + zoomAmount) * secondaryRatio
+    };
   };
 
-  return zoomedArea;
+  const sizes = aspectRatio >= 1
+    ? getSizes(width)
+    : getSizes(height);
+
+  const zoomedSize = {
+    width: aspectRatio >= 1 ? sizes.main : sizes.secondary,
+    height: aspectRatio >= 1 ? sizes.secondary : sizes.main
+  };
+
+  return {
+    ...zoomedSize,
+    left: left + Math.round((width - zoomedSize.width) / 2),
+    top: top + Math.round((height - zoomedSize.height) / 2)
+  };
 };
 
-export const zoom = (cropArea, zoomAmount, originalImageSize, minSize) => {
-  return normalizeArea(unsafeZoom(cropArea, zoomAmount), originalImageSize, minSize);
+export const zoom = (cropArea, aspectRatio, zoomAmount, originalImageSize, minSize) => {
+  return normalizeArea(
+      unsafeZoom(cropArea, aspectRatio, zoomAmount),
+      aspectRatio, originalImageSize, minSize
+    );
 };
 
 export default class PureCropper extends Component {
@@ -81,6 +99,8 @@ export default class PureCropper extends Component {
     cropArea: PropTypes.object,
     // Visual selection position and size
     selectionPosition: PropTypes.object,
+
+    aspectRatio: PropTypes.number.isRequired,
 
     style: PropTypes.shape({
       width: PropTypes.number.isRequired,
@@ -95,16 +115,15 @@ export default class PureCropper extends Component {
   }
 
   countSelectionArea() {
-    const { cropArea } = this.props;
-    const selectionAspectRatio = cropArea.width / cropArea.height;
+    const { aspectRatio } = this.props;
     const holderSize = this.props.style;
     const holderAspectRatio = holderSize.width / holderSize.height;
 
 
-    function gatherAreaSize(containerSize, aspectRatio) {
+    function gatherAreaSize(containerSize, ratio) {
       const width = containerSize.width * 0.6;
       const left = (containerSize.width - width) / 2;
-      const height = width / aspectRatio;
+      const height = width / ratio;
       const top = (containerSize.height - height) / 2;
       return {
         width,
@@ -114,14 +133,14 @@ export default class PureCropper extends Component {
       };
     }
 
-    if (selectionAspectRatio >= holderAspectRatio) {
-      return gatherAreaSize(holderSize, selectionAspectRatio);
+    if (aspectRatio >= holderAspectRatio) {
+      return gatherAreaSize(holderSize, aspectRatio);
     }
 
     const countedArea = gatherAreaSize({
       width: holderSize.height,
       height: holderSize.width
-    }, 1 / selectionAspectRatio);
+    }, 1 / aspectRatio);
 
     return {
       top: countedArea.left,
