@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import PureCropper, { zoom } from '../src/cropper';
+import PureCropper, { zoom, normalizeArea } from '../src/cropper';
 import PureCropperPreview from '../src/preview';
 
 class CropperDemo extends Component {
@@ -18,8 +18,8 @@ class CropperDemo extends Component {
     const { width, height } = this.state.cropArea;
 
     this.aspectRatio = width / height;
-    this.zoomIn = this.zoomIn.bind(this);
-    this.zoomOut = this.zoomOut.bind(this);
+    this.zoomIn = this::this.zoomIn;
+    this.zoomOut = this::this.zoomOut;
   }
 
   zoom(amount) {
@@ -38,6 +38,20 @@ class CropperDemo extends Component {
 
   zoomOut() {
     this.zoom(1);
+  }
+
+  drag(event) {
+    const { cropArea } = this.state;
+    const newCropArea = normalizeArea({
+      ...cropArea,
+      left: cropArea.left - event.diffX,
+      top: cropArea.top - event.diffY
+    }, this.aspectRatio, { width: 1280, height: 720 });
+    // console.log(JSON.stringify(newCropArea, null, 4), JSON.stringify(cropArea, null, 4));
+    this.setState({
+      // @TODO: Get original image size somehow
+      cropArea: newCropArea
+    });
   }
 
   render() {
@@ -73,6 +87,7 @@ class CropperDemo extends Component {
           }
           aspectRatio={ this.aspectRatio }
           onZoom={ this::this.zoom }
+          onDrag={ this::this.drag}
         />
       </div>
     );

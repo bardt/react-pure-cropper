@@ -107,11 +107,13 @@ export default class PureCropper extends Component {
       height: PropTypes.number.isRequired
     }).isRequired,
 
-    onZoom: PropTypes.func
+    onZoom: PropTypes.func,
+    onDrag: PropTypes.func
   }
 
   static defaultProps = {
-    onZoom: () => undefined
+    onZoom: () => undefined,
+    onDrag: () => undefined
   }
 
   countSelectionArea() {
@@ -158,6 +160,38 @@ export default class PureCropper extends Component {
     this.props.onZoom(significantDelta);
   }
 
+  handleMouseDown(event) {
+    this.dragging = true;
+    this.mouseCoords = {
+      x: event.pageX,
+      y: event.pageY
+    };
+  }
+
+  handleMouseUp() {
+    this.dragging = false;
+    this.mouseCoords = {};
+  }
+
+  handleMouseMove(event) {
+    if (this.dragging) {
+      this.props.onDrag({
+        diffX: event.pageX - this.mouseCoords.x,
+        diffY: event.pageY - this.mouseCoords.y,
+      });
+
+      this.mouseCoords = {
+        x: event.pageX,
+        y: event.pageY
+      };
+    }
+  }
+
+  handleMouseLeave() {
+    this.dragging = false;
+    this.mouseCoords = {};
+  }
+
   render() {
     const {
       cropArea,
@@ -199,13 +233,29 @@ export default class PureCropper extends Component {
       `
     };
 
+    const overlayStyle = {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'black',
+      opacity: 0.3
+    };
+
     return (
-      <div style={ holderStyle } onWheel={ this::this.handleMouseWheel }>
+      <div style={ holderStyle }
+        onWheel={ this::this.handleMouseWheel }
+        onMouseDown={ this::this.handleMouseDown }
+        onMouseUp={ this::this.handleMouseUp }
+        onMouseMove={ this::this.handleMouseMove }
+        onMouseLeave={ this::this.handleMouseLeave }
+      >
         <img
           src={ originalImage }
           style={ backgroundStyle }
         />
-        <div className="overlay"/>
+      <div className="overlay" style={ overlayStyle }/>
         <PureCropperPreview
           cropArea={ cropArea }
           originalURL={ originalImage }
