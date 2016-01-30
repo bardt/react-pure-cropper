@@ -59,12 +59,14 @@ export default class PureCropperPreview extends Component {
     } = getTransformations(cropArea, style);
 
     const imageStyle = {
+      pointerEvents: 'none',
       transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
       transformOrigin: `${originX}px ${originY}px`
     };
 
     const containerStyle = {
       ...style,
+      pointerEvents: 'none',
       overflow: 'hidden'
     };
 

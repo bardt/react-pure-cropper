@@ -223,6 +223,7 @@ export default class PureCropper extends Component {
     } = getTransformations(cropArea, previewStyle);
 
     const backgroundStyle = {
+      pointerEvents: 'none',
       transformOrigin: `${originX}px ${originY}px`,
       transform: `
         translate(
