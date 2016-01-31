@@ -2,7 +2,7 @@ import test from 'ava';
 import 'babel-core/register';
 import deepFreeze from 'deep-freeze';
 
-import { unsafeZoom } from '../../src/cropper';
+import { unsafeZoom } from '../../src/cropper/calculations';
 
 test('Unsafe Zoom: zooms according to aspect ratio', t => {
   const cropArea = deepFreeze({

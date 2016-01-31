@@ -2,7 +2,7 @@ import test from 'ava';
 import 'babel-core/register';
 import deepFreeze from 'deep-freeze';
 
-import { normalizeArea } from '../../src/cropper';
+import { normalizeArea } from '../../src/cropper/calculations';
 
 const originalImageSize = deepFreeze({
   width: 1280,

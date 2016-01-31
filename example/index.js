@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import PureCropper, { zoom, normalizeArea } from '../src/cropper';
+import PureCropper from '../src/cropper';
+import { zoom, normalizeArea } from '../src/cropper/calculations';
 import PureCropperPreview from '../src/preview';
 
 class CropperDemo extends Component {
