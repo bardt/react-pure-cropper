@@ -85,6 +85,7 @@ export default class PureCropper extends Component {
 
   handleMouseMove(event) {
     if (this.dragging) {
+      event.preventDefault();
       this.props.onDrag({
         diffX: event.pageX - this.mouseCoords.x,
         diffY: event.pageY - this.mouseCoords.y,
@@ -108,6 +109,14 @@ export default class PureCropper extends Component {
       originalImage,
       style
     } = this.props;
+
+    const noSelectStyle = {
+      '-webkit-user-select': 'none',
+      '-khtml-user-select': 'none',
+      '-moz-user-select': 'none',
+      '-o-user-select': 'none',
+      'user-select': 'none'
+    };
 
     const holderStyle = {
       ...style,
@@ -133,6 +142,7 @@ export default class PureCropper extends Component {
     } = getTransformations(cropArea, previewStyle);
 
     const backgroundStyle = {
+      ...noSelectStyle,
       pointerEvents: 'none',
       transformOrigin: `${originX}px ${originY}px`,
       transform: `
@@ -151,7 +161,8 @@ export default class PureCropper extends Component {
       right: 0,
       bottom: 0,
       background: 'black',
-      opacity: 0.3
+      opacity: 0.3,
+      pointerEvents: 'none'
     };
 
     return (
