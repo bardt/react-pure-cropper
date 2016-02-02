@@ -12,7 +12,7 @@ export default class PureCropper extends Component {
 
     aspectRatio: PropTypes.number.isRequired,
 
-    style: PropTypes.shape({
+    size: PropTypes.shape({
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
     }).isRequired,
@@ -27,9 +27,8 @@ export default class PureCropper extends Component {
   }
 
   countSelectionArea() {
-    const { aspectRatio } = this.props;
-    const holderSize = this.props.style;
-    const holderAspectRatio = holderSize.width / holderSize.height;
+    const { aspectRatio, size } = this.props;
+    const holderAspectRatio = size.width / size.height;
 
 
     function gatherAreaSize(containerSize, ratio) {
@@ -46,12 +45,12 @@ export default class PureCropper extends Component {
     }
 
     if (aspectRatio >= holderAspectRatio) {
-      return gatherAreaSize(holderSize, aspectRatio);
+      return gatherAreaSize(size, aspectRatio);
     }
 
     const countedArea = gatherAreaSize({
-      width: holderSize.height,
-      height: holderSize.width
+      width: size.height,
+      height: size.width
     }, 1 / aspectRatio);
 
     return {
@@ -107,19 +106,19 @@ export default class PureCropper extends Component {
     const {
       cropArea,
       originalImage,
-      style
+      size
     } = this.props;
 
     const noSelectStyle = {
-      '-webkit-user-select': 'none',
-      '-khtml-user-select': 'none',
-      '-moz-user-select': 'none',
-      '-o-user-select': 'none',
-      'user-select': 'none'
+      WebkitUserSelect: 'none',
+      KhtmlUserSelect: 'none',
+      MozUserSelect: 'none',
+      OUserSelect: 'none',
+      userSelect: 'none'
     };
 
     const holderStyle = {
-      ...style,
+      ...size,
       background: 'cadetblue',
       position: 'relative',
       overflow: 'hidden'
@@ -182,6 +181,7 @@ export default class PureCropper extends Component {
           cropArea={ cropArea }
           originalURL={ originalImage }
           style={ previewStyle }
+          size={ previewStyle }
         />
       </div>
     );

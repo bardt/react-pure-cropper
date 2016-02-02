@@ -37,17 +37,19 @@ export default class PureCropperPreview extends Component {
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
     }),
-    style: PropTypes.shape({
+    size: PropTypes.shape({
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
-    })
+    }).isRequired,
+    style: PropTypes.object
   }
 
   render() {
     const {
       originalURL,
       cropArea,
-      style = {}
+      style = {},
+      size
     } = this.props;
 
     const {
@@ -56,7 +58,7 @@ export default class PureCropperPreview extends Component {
       translateX,
       translateY,
       scale
-    } = getTransformations(cropArea, style);
+    } = getTransformations(cropArea, size);
 
     const imageStyle = {
       pointerEvents: 'none',
@@ -65,9 +67,9 @@ export default class PureCropperPreview extends Component {
     };
 
     const containerStyle = {
-      ...style,
       pointerEvents: 'none',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      ...style
     };
 
     return (
