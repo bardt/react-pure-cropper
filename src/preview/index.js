@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
+
 export const getScale = (previewSize, cropArea) => {
   return previewSize.width / cropArea.width;
 };

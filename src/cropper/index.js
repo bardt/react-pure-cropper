@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
-import PureCropperPreview, { getTransformations } from '../preview';
+import PureCropperPreview, { getTransformations, getScale } from '../preview';
 
 export default class PureCropper extends PureComponent {
   static propTypes = {
@@ -63,6 +63,7 @@ export default class PureCropper extends PureComponent {
 
   handleMouseWheel(event) {
     event.preventDefault();
+
     const { deltaX, deltaY } = event;
     const significantDelta = Math.abs(deltaX) > Math.abs(deltaY) ? deltaX : deltaY;
 
@@ -82,12 +83,21 @@ export default class PureCropper extends PureComponent {
     this.mouseCoords = {};
   }
 
+  handleMouseLeave() {
+    this.dragging = false;
+    this.mouseCoords = {};
+  }
+
   handleMouseMove(event) {
     if (this.dragging) {
       event.preventDefault();
+
+      const { cropArea } = this.props;
+      const scale = getScale(this.countSelectionArea(), cropArea);
+
       this.props.onDrag({
-        diffX: event.pageX - this.mouseCoords.x,
-        diffY: event.pageY - this.mouseCoords.y
+        diffX: (event.pageX - this.mouseCoords.x) / scale,
+        diffY: (event.pageY - this.mouseCoords.y) / scale
       });
 
       this.mouseCoords = {
@@ -95,11 +105,6 @@ export default class PureCropper extends PureComponent {
         y: event.pageY
       };
     }
-  }
-
-  handleMouseLeave() {
-    this.dragging = false;
-    this.mouseCoords = {};
   }
 
   render() {
