@@ -61,7 +61,14 @@ export default class PureCropperPreview extends PureComponent {
     const imageStyle = {
       willChange: 'transform',
       pointerEvents: 'none',
-      transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
+      transform: `
+        translate3d(
+          ${translateX}px,
+          ${translateY}px,
+          0px
+        )
+        scale(${scale})
+      `,
       transformOrigin: `${originX}px ${originY}px`
     };
 
