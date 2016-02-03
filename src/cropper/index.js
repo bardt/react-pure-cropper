@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import PureComponent from 'react-pure-render/component';
 import PureCropperPreview, { getTransformations } from '../preview';
 
-export default class PureCropper extends Component {
+export default class PureCropper extends PureComponent {
   static propTypes = {
     // URL or data-url of image to be cropped
     originalImage: PropTypes.string.isRequired,
@@ -12,7 +13,7 @@ export default class PureCropper extends Component {
 
     aspectRatio: PropTypes.number.isRequired,
 
-    size: PropTypes.shape({
+    style: PropTypes.shape({
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
     }).isRequired,
@@ -27,9 +28,8 @@ export default class PureCropper extends Component {
   }
 
   countSelectionArea() {
-    const { aspectRatio, size } = this.props;
-    const holderAspectRatio = size.width / size.height;
-
+    const { aspectRatio, style } = this.props;
+    const holderAspectRatio = style.width / style.height;
 
     function gatherAreaSize(containerSize, ratio) {
       const width = containerSize.width * 0.6;
@@ -45,12 +45,12 @@ export default class PureCropper extends Component {
     }
 
     if (aspectRatio >= holderAspectRatio) {
-      return gatherAreaSize(size, aspectRatio);
+      return gatherAreaSize(style, aspectRatio);
     }
 
     const countedArea = gatherAreaSize({
-      width: size.height,
-      height: size.width
+      width: style.height,
+      height: style.width
     }, 1 / aspectRatio);
 
     return {
@@ -87,7 +87,7 @@ export default class PureCropper extends Component {
       event.preventDefault();
       this.props.onDrag({
         diffX: event.pageX - this.mouseCoords.x,
-        diffY: event.pageY - this.mouseCoords.y,
+        diffY: event.pageY - this.mouseCoords.y
       });
 
       this.mouseCoords = {
@@ -106,7 +106,7 @@ export default class PureCropper extends Component {
     const {
       cropArea,
       originalImage,
-      size
+      style
     } = this.props;
 
     const noSelectStyle = {
@@ -118,7 +118,7 @@ export default class PureCropper extends Component {
     };
 
     const holderStyle = {
-      ...size,
+      ...style,
       background: 'cadetblue',
       position: 'relative',
       overflow: 'hidden'
@@ -181,7 +181,6 @@ export default class PureCropper extends Component {
           cropArea={ cropArea }
           originalURL={ originalImage }
           style={ previewStyle }
-          size={ previewStyle }
         />
       </div>
     );

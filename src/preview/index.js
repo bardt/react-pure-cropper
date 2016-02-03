@@ -1,5 +1,5 @@
-import React, { PropTypes, Component } from 'react';
-
+import React, { PropTypes } from 'react';
+import PureComponent from 'react-pure-render/component';
 export const getScale = (previewSize, cropArea) => {
   return previewSize.width / cropArea.width;
 };
@@ -28,7 +28,7 @@ export const getTransformations = (cropArea, containerSize) => {
   };
 };
 
-export default class PureCropperPreview extends Component {
+export default class PureCropperPreview extends PureComponent {
   static propTypes = {
     originalURL: PropTypes.string.isRequired,
     cropArea: PropTypes.shape({
@@ -37,19 +37,17 @@ export default class PureCropperPreview extends Component {
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
     }),
-    size: PropTypes.shape({
+    style: PropTypes.shape({
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
-    }).isRequired,
-    style: PropTypes.object
+    }).isRequired
   }
 
   render() {
     const {
       originalURL,
       cropArea,
-      style = {},
-      size
+      style = {}
     } = this.props;
 
     const {
@@ -58,7 +56,7 @@ export default class PureCropperPreview extends Component {
       translateX,
       translateY,
       scale
-    } = getTransformations(cropArea, size);
+    } = getTransformations(cropArea, style);
 
     const imageStyle = {
       pointerEvents: 'none',

@@ -37,6 +37,7 @@
     "eslint-config-airbnb": "^3.0.0",
     "eslint-plugin-react": "^3.14.0",
     "nyc": "^5.5.0",
+    "react-pure-render": "^1.0.2",
     "tooling": "^0.6.2"
   }
 }

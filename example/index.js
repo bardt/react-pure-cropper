@@ -26,7 +26,6 @@ class CropperDemo extends Component {
   zoom(amount) {
     const { cropArea } = this.state;
     const newCropArea = zoom(cropArea, this.aspectRatio, amount, { width: 1280, height: 720 });
-    // console.log(JSON.stringify(newCropArea, null, 4), JSON.stringify(cropArea, null, 4));
     this.setState({
       // @TODO: Get original image size somehow
       cropArea: newCropArea
@@ -50,7 +49,6 @@ class CropperDemo extends Component {
     }, this.aspectRatio, { width: 1280, height: 720 });
     // console.log(JSON.stringify(newCropArea, null, 4), JSON.stringify(cropArea, null, 4));
     this.setState({
-      // @TODO: Get original image size somehow
       cropArea: newCropArea
     });
   }
@@ -63,13 +61,11 @@ class CropperDemo extends Component {
       <div>
         <PureCropperPreview
           style={ { width: 200, height: 200 } }
-          size={ { width: 200, height: 200 } }
           cropArea={ cropArea }
           originalURL={ url }
         />
         <PureCropperPreview
           style={ { width: 100, height: 100 } }
-          size={ { width: 100, height: 100 } }
           cropArea={ cropArea }
           originalURL={ url }
         />
@@ -79,7 +75,6 @@ class CropperDemo extends Component {
           originalImage={ url }
           cropArea={ cropArea }
           style={ { width: 500, height: 1000 } }
-          size={ { width: 500, height: 1000 } }
           aspectRatio={ this.aspectRatio }
           onZoom={ this::this.zoom }
           onDrag={ this::this.drag }
