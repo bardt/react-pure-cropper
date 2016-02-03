@@ -142,6 +142,7 @@ export default class PureCropper extends PureComponent {
 
     const backgroundStyle = {
       ...noSelectStyle,
+      willChange: 'transform',
       pointerEvents: 'none',
       transformOrigin: `${originX}px ${originY}px`,
       transform: `
@@ -179,7 +180,7 @@ export default class PureCropper extends PureComponent {
       <div className="overlay" style={ overlayStyle }/>
         <PureCropperPreview
           cropArea={ cropArea }
-          originalURL={ originalImage }
+          originalImage={ originalImage }
           style={ previewStyle }
         />
       </div>

@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import PureCropper from '../src/cropper';
 import { zoom, normalizeArea } from '../src/cropper/calculations';
 import PureCropperPreview from '../src/preview';
+import { getImageSize } from '../src/utils';
 
 class CropperDemo extends Component {
   constructor(props) {
@@ -13,21 +14,36 @@ class CropperDemo extends Component {
         top: 100,
         width: 400,
         height: 400
-      }
+      },
+      originalSize: {
+        width: 0,
+        height: 0
+      },
+      url: 'http://fengyuanchen.github.io/cropper/img/picture.jpg'
     };
 
     const { width, height } = this.state.cropArea;
+    this.state.aspectRatio = width / height;
 
-    this.aspectRatio = width / height;
     this.zoomIn = this::this.zoomIn;
     this.zoomOut = this::this.zoomOut;
   }
 
+  componentDidMount() {
+    const { url } = this.state;
+    getImageSize(url, originalSize => {
+      const { cropArea, aspectRatio } = this.state;
+      this.setState({
+        originalSize,
+        cropArea: normalizeArea(cropArea, aspectRatio, originalSize)
+      });
+    });
+  }
+
   zoom(amount) {
-    const { cropArea } = this.state;
-    const newCropArea = zoom(cropArea, this.aspectRatio, amount, { width: 1280, height: 720 });
+    const { cropArea, originalSize, aspectRatio } = this.state;
+    const newCropArea = zoom(cropArea, aspectRatio, amount, originalSize);
     this.setState({
-      // @TODO: Get original image size somehow
       cropArea: newCropArea
     });
   }
@@ -41,41 +57,41 @@ class CropperDemo extends Component {
   }
 
   drag(event) {
-    const { cropArea } = this.state;
+    const { cropArea, originalSize, aspectRatio } = this.state;
+
     const newCropArea = normalizeArea({
       ...cropArea,
       left: cropArea.left - event.diffX,
       top: cropArea.top - event.diffY
-    }, this.aspectRatio, { width: 1280, height: 720 });
-    // console.log(JSON.stringify(newCropArea, null, 4), JSON.stringify(cropArea, null, 4));
+    }, aspectRatio, originalSize);
+
     this.setState({
       cropArea: newCropArea
     });
   }
 
   render() {
-    const url = 'http://fengyuanchen.github.io/cropper/img/picture.jpg';
-    const { cropArea } = this.state;
+    const { cropArea, url, aspectRatio } = this.state;
 
     return (
       <div>
         <PureCropperPreview
           style={ { width: 200, height: 200 } }
           cropArea={ cropArea }
-          originalURL={ url }
+          originalImage={ url }
         />
         <PureCropperPreview
           style={ { width: 100, height: 100 } }
           cropArea={ cropArea }
-          originalURL={ url }
+          originalImage={ url }
         />
         <button onClick={ this.zoomOut }>-</button>
         <button onClick={ this.zoomIn }>+</button>
         <PureCropper
+          style={ { width: 500, height: 1000 } }
           originalImage={ url }
           cropArea={ cropArea }
-          style={ { width: 500, height: 1000 } }
-          aspectRatio={ this.aspectRatio }
+          aspectRatio={ aspectRatio }
           onZoom={ this::this.zoom }
           onDrag={ this::this.drag }
         />

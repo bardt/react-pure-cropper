@@ -30,7 +30,7 @@ export const getTransformations = (cropArea, containerSize) => {
 
 export default class PureCropperPreview extends PureComponent {
   static propTypes = {
-    originalURL: PropTypes.string.isRequired,
+    originalImage: PropTypes.string.isRequired,
     cropArea: PropTypes.shape({
       top: PropTypes.number.isRequired,
       left: PropTypes.number.isRequired,
@@ -45,7 +45,7 @@ export default class PureCropperPreview extends PureComponent {
 
   render() {
     const {
-      originalURL,
+      originalImage,
       cropArea,
       style = {}
     } = this.props;
@@ -59,6 +59,7 @@ export default class PureCropperPreview extends PureComponent {
     } = getTransformations(cropArea, style);
 
     const imageStyle = {
+      willChange: 'transform',
       pointerEvents: 'none',
       transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
       transformOrigin: `${originX}px ${originY}px`
@@ -72,7 +73,7 @@ export default class PureCropperPreview extends PureComponent {
 
     return (
       <div style={ containerStyle }>
-        <img src={ originalURL } style={ imageStyle } />
+        <img src={ originalImage } style={ imageStyle } />
       </div>
     );
   }
