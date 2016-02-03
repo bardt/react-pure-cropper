@@ -13,7 +13,8 @@ class CropperDemo extends Component {
         top: 100,
         width: 400,
         height: 400
-      }
+      },
+      scale: 1
     };
 
     const { width, height } = this.state.cropArea;
@@ -33,11 +34,17 @@ class CropperDemo extends Component {
   }
 
   zoomIn() {
-    this.zoom(-1);
+    this.setState({
+      scale: this.state.scale + 0.1
+    })
+    // this.zoom(-1);
   }
 
   zoomOut() {
-    this.zoom(1);
+    this.setState({
+      scale: this.state.scale - 0.1
+    })
+    // this.zoom(1);
   }
 
   drag(event) {
@@ -56,29 +63,19 @@ class CropperDemo extends Component {
   render() {
     const url = 'http://fengyuanchen.github.io/cropper/img/picture.jpg';
     const { cropArea } = this.state;
+    const style = {
+      width: `${1280}`,
+      height: `${720}`,
+      transform: `scale(${this.state.scale})`
+      // backgroundImage: `url(${url})`,
+      // backgroundSize: 'cover'
+    };
 
     return (
       <div>
-        <PureCropperPreview
-          style={ { width: 200, height: 200 } }
-          cropArea={ cropArea }
-          originalURL={ url }
-        />
-        <PureCropperPreview
-          style={ { width: 100, height: 100 } }
-          cropArea={ cropArea }
-          originalURL={ url }
-        />
         <button onClick={ this.zoomOut }>-</button>
         <button onClick={ this.zoomIn }>+</button>
-        <PureCropper
-          originalImage={ url }
-          cropArea={ cropArea }
-          style={ { width: 500, height: 1000 } }
-          aspectRatio={ this.aspectRatio }
-          onZoom={ this::this.zoom }
-          onDrag={ this::this.drag }
-        />
+        <img src={ url } style={ style }/>
       </div>
     );
   }
