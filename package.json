@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "demo": "./node_modules/.bin/tooling watch --entry ./example/index.js",
+    "demo:build": "./node_modules/.bin/tooling build --entry ./example/index.js",
     "test": "nyc --reporter=lcov ava"
   },
   "peerDependencies": {

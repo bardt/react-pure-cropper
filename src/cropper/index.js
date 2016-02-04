@@ -150,12 +150,18 @@ export default class PureCropper extends PureComponent {
       willChange: 'transform',
       pointerEvents: 'none',
       transformOrigin: `${originX}px ${originY}px`,
+      msTransformOrigin: `${originX}px ${originY}px`,
       transform: `
         translate3d(
           ${ holderStyle.width / 2 - originX }px,
           ${ holderStyle.height / 2 - originY }px,
           0px
         )
+        scale(${scale})
+      `,
+      msTransform: `
+        translateX(${ holderStyle.width / 2 - originX }px)
+        translateY(${ holderStyle.height / 2 - originY }px)
         scale(${scale})
       `
     };

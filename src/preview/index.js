@@ -70,7 +70,13 @@ export default class PureCropperPreview extends PureComponent {
         )
         scale(${scale})
       `,
-      transformOrigin: `${originX}px ${originY}px`
+      msTransform: `
+        translateX(${translateX}px)
+        translateY(${translateY}px)
+        scale(${scale})
+      `,
+      transformOrigin: `${originX}px ${originY}px`,
+      msTransformOrigin: `${originX}px ${originY}px`
     };
 
     const containerStyle = {
