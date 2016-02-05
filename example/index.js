@@ -5,6 +5,10 @@ import { zoom, normalizeArea } from '../src/cropper/calculations';
 import PureCropperPreview from '../src/preview';
 import { getImageSize } from '../src/utils';
 
+
+import Perf from 'react-addons-perf';
+window.Perf = Perf;
+
 class CropperDemo extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +31,8 @@ class CropperDemo extends Component {
 
     this.zoomIn = this::this.zoomIn;
     this.zoomOut = this::this.zoomOut;
+    this.zoom = this::this.zoom;
+    this.drag = this::this.drag;
   }
 
   componentDidMount() {
@@ -92,8 +98,8 @@ class CropperDemo extends Component {
           originalImage={ url }
           cropArea={ cropArea }
           aspectRatio={ aspectRatio }
-          onZoom={ this::this.zoom }
-          onDrag={ this::this.drag }
+          onZoom={ this.zoom }
+          onDrag={ this.drag }
         />
       </div>
     );

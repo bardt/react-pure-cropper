@@ -20,11 +20,21 @@ export default class PureCropper extends PureComponent {
 
     onZoom: PropTypes.func,
     onDrag: PropTypes.func
-  }
+  };
 
   static defaultProps = {
     onZoom: () => undefined,
     onDrag: () => undefined
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.handleMouseWheel = this::this.handleMouseWheel;
+    this.handleMouseUp = this::this.handleMouseUp;
+    this.handleMouseDown = this::this.handleMouseDown;
+    this.handleMouseMove = this::this.handleMouseMove;
+    this.handleMouseLeave = this::this.handleMouseLeave;
   }
 
   countSelectionArea() {
@@ -179,11 +189,11 @@ export default class PureCropper extends PureComponent {
 
     return (
       <div style={ holderStyle }
-        onWheel={ this::this.handleMouseWheel }
-        onMouseDown={ this::this.handleMouseDown }
-        onMouseUp={ this::this.handleMouseUp }
-        onMouseMove={ this::this.handleMouseMove }
-        onMouseLeave={ this::this.handleMouseLeave }
+        onWheel={ this.handleMouseWheel }
+        onMouseDown={ this.handleMouseDown }
+        onMouseUp={ this.handleMouseUp }
+        onMouseMove={ this.handleMouseMove }
+        onMouseLeave={ this.handleMouseLeave }
       >
         <img
           src={ originalImage }

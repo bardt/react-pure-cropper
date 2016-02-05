@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A set of React.js stateless components for image cropping and preview",
   "main": "index.js",
+  "engines": {
+    "node": "4.2.1",
+    "npm": "3.3.12"
+  },
   "scripts": {
     "demo": "./node_modules/.bin/tooling watch --entry ./example/index.js",
     "demo:build": "./node_modules/.bin/tooling build --entry ./example/index.js",
@@ -38,6 +42,7 @@
     "eslint-config-airbnb": "^3.0.0",
     "eslint-plugin-react": "^3.14.0",
     "nyc": "^5.5.0",
+    "react-addons-perf": "^0.14.7",
     "react-pure-render": "^1.0.2",
     "tooling": "^0.6.2"
   }

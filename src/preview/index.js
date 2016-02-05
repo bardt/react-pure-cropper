@@ -42,7 +42,7 @@ export default class PureCropperPreview extends PureComponent {
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired
     }).isRequired
-  }
+  };
 
   render() {
     const {
