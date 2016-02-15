@@ -81,26 +81,40 @@ class CropperDemo extends Component {
 
     return (
       <div>
-        <PureCropperPreview
-          style={ { width: 200, height: 200 } }
-          cropArea={ cropArea }
-          originalImage={ url }
-        />
-        <PureCropperPreview
-          style={ { width: 100, height: 100 } }
-          cropArea={ cropArea }
-          originalImage={ url }
-        />
-        <button onClick={ this.zoomOut }>-</button>
-        <button onClick={ this.zoomIn }>+</button>
-        <PureCropper
-          style={ { width: 500, height: 1000 } }
-          originalImage={ url }
-          cropArea={ cropArea }
-          aspectRatio={ aspectRatio }
-          onZoom={ this.zoom }
-          onDrag={ this.drag }
-        />
+        <div style={{
+          float: 'left',
+          width: 500,
+          padding: '1em'
+        }}
+        >
+          <button onClick={ this.zoomOut }>-</button>
+          <button onClick={ this.zoomIn }>+</button>
+          <PureCropper
+            style={ { width: 500, height: 1000 } }
+            originalImage={ url }
+            cropArea={ cropArea }
+            aspectRatio={ aspectRatio }
+            onZoom={ this.zoom }
+            onDrag={ this.drag }
+          />
+        </div>
+        <div style={{
+          float: 'left',
+          width: 200,
+          padding: '1em'
+        }}
+        >
+          <PureCropperPreview
+            style={ { width: 200, height: 200 } }
+            cropArea={ cropArea }
+            originalImage={ url }
+          />
+          <PureCropperPreview
+            style={ { width: 100, height: 100 } }
+            cropArea={ cropArea }
+            originalImage={ url }
+          />
+        </div>
       </div>
     );
   }
