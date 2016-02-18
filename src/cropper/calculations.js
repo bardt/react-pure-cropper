@@ -4,7 +4,12 @@ const defaultMinSize = {
 };
 
 export const normalizeArea = (cropArea, aspectRatio, originalSize, minSize = defaultMinSize) => {
-  let { top, left, width, height } = cropArea;
+  let {
+    top,
+    left,
+    width,
+    height
+  } = cropArea;
 
   // Shrink
   if (width < minSize.width) {
@@ -53,7 +58,12 @@ export const normalizeArea = (cropArea, aspectRatio, originalSize, minSize = def
 };
 
 export const unsafeZoom = (cropArea, aspectRatio, zoomAmount) => {
-  const { top, left, width, height } = cropArea;
+  const {
+    top,
+    left,
+    width,
+    height
+  } = cropArea;
 
   const getSizes = (significantSize) => {
     const secondaryRatio = Math.min(aspectRatio, 1 / aspectRatio);
@@ -64,9 +74,7 @@ export const unsafeZoom = (cropArea, aspectRatio, zoomAmount) => {
     };
   };
 
-  const sizes = aspectRatio >= 1
-    ? getSizes(width)
-    : getSizes(height);
+  const sizes = aspectRatio >= 1 ? getSizes(width) : getSizes(height);
 
   const zoomedSize = {
     width: aspectRatio >= 1 ? sizes.main : sizes.secondary,
@@ -82,7 +90,9 @@ export const unsafeZoom = (cropArea, aspectRatio, zoomAmount) => {
 
 export const zoom = (cropArea, aspectRatio, zoomAmount, originalImageSize, minSize) => {
   return normalizeArea(
-      unsafeZoom(cropArea, aspectRatio, zoomAmount),
-      aspectRatio, originalImageSize, minSize
-    );
+    unsafeZoom(cropArea, aspectRatio, zoomAmount),
+    aspectRatio,
+    originalImageSize,
+    minSize
+  );
 };
