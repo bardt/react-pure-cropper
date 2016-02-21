@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import PureComponent from 'react-pure-render/component';
 import PureCropperPreview, { getTransformations, getScale } from '../preview';
 
+const BACKGROUND_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAB1WlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KAtiABQAAAFJJREFUSA3t0rENwCAMBVFgRy9pD+m0dCen5VIR6STE09+ZuSZfREzydUb1j9gLEE0iiVAAA1f0ANHubnzmHVTV/YtnVyQRCmDgiiRCAQxcERJ9bYcIOvgMZL8AAAAASUVORK5CYII='; // eslint-disable-line max-len
+
 export default class PureCropper extends PureComponent {
   static propTypes = {
     // URL or data-url of image to be cropped
@@ -134,7 +136,7 @@ export default class PureCropper extends PureComponent {
 
     const holderStyle = {
       ...style,
-      background: 'cadetblue',
+      background: `url(${BACKGROUND_IMAGE}) repeat`,
       position: 'relative',
       overflow: 'hidden'
     };
