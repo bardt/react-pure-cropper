@@ -147,8 +147,7 @@ export default class PureCropper extends PureComponent {
       top: '50%',
       left: '50%',
       transform: `translate(-50%, -50%)`,
-      borderRadius: '50%',
-      border: '1px solid black'
+      ...this.props.previewStyle
     };
 
     const {

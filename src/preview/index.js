@@ -82,6 +82,7 @@ export default class PureCropperPreview extends PureComponent {
     const containerStyle = {
       pointerEvents: 'none',
       overflow: 'hidden',
+      transform: 'translateZ(0)',
       ...style
     };
 

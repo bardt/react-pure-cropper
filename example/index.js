@@ -9,6 +9,11 @@ import { getImageSize } from '../src/utils';
 import Perf from 'react-addons-perf';
 window.Perf = Perf;
 
+const MIN_SIZE = {
+  width: 100,
+  height: 100
+};
+
 class CropperDemo extends Component {
   constructor(props) {
     super(props);
@@ -41,14 +46,14 @@ class CropperDemo extends Component {
       const { cropArea, aspectRatio } = this.state;
       this.setState({
         originalSize,
-        cropArea: normalizeArea(cropArea, aspectRatio, originalSize)
+        cropArea: normalizeArea(cropArea, aspectRatio, originalSize, MIN_SIZE)
       });
     });
   }
 
   zoom(amount) {
     const { cropArea, originalSize, aspectRatio } = this.state;
-    const newCropArea = zoom(cropArea, aspectRatio, amount, originalSize);
+    const newCropArea = zoom(cropArea, aspectRatio, amount, originalSize, MIN_SIZE);
     this.setState({
       cropArea: newCropArea
     });
@@ -69,7 +74,7 @@ class CropperDemo extends Component {
       ...cropArea,
       left: cropArea.left - event.diffX,
       top: cropArea.top - event.diffY
-    }, aspectRatio, originalSize);
+    }, aspectRatio, originalSize, MIN_SIZE);
 
     this.setState({
       cropArea: newCropArea
@@ -78,7 +83,10 @@ class CropperDemo extends Component {
 
   render() {
     const { cropArea, url, aspectRatio } = this.state;
-
+    const previewStyle = {
+      borderRadius: '50%',
+      border: '1px solid black'
+    };
     return (
       <div>
         <div style={{
@@ -91,6 +99,7 @@ class CropperDemo extends Component {
           <button onClick={ this.zoomIn }>+</button>
           <PureCropper
             style={ { width: 500, height: 1000 } }
+            previewStyle={ previewStyle }
             originalImage={ url }
             cropArea={ cropArea }
             aspectRatio={ aspectRatio }
@@ -105,12 +114,12 @@ class CropperDemo extends Component {
         }}
         >
           <PureCropperPreview
-            style={ { width: 200, height: 200 } }
+            style={ { ...previewStyle, width: 200, height: 200 } }
             cropArea={ cropArea }
             originalImage={ url }
           />
           <PureCropperPreview
-            style={ { width: 100, height: 100 } }
+            style={ { ...previewStyle, width: 100, height: 100 } }
             cropArea={ cropArea }
             originalImage={ url }
           />
