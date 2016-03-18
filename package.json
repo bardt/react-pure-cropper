@@ -8,13 +8,15 @@
     "npm": "3.3.12"
   },
   "scripts": {
-    "build": "babel src -d lib",
-    "demo": "./node_modules/.bin/tooling watch --entry ./example/index.js",
-    "demo:build": "./node_modules/.bin/tooling build --entry ./example/index.js",
+    "build": "babel src -r lib",
+    "demo": "tooling watch --entry ./example/index.js",
+    "demo:build": "tooling build --entry ./example/index.js",
+    "build:redux": "tooling build --entry ./example/redux-example/index.js",
+    "demo:redux": "tooling watch --entry ./example/redux-example/index.js",
     "test": "nyc --reporter=lcov ava"
   },
   "peerDependencies": {
-    "react": "0.14.x"
+    "react": "^0.14.x"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,8 @@
     "nyc": "^5.5.0",
     "react-addons-perf": "^0.14.7",
     "react-pure-render": "^1.0.2",
-    "tooling": "^0.6.2"
+    "tooling": "^0.6.2",
+    "react-redux": "4.4.1",
+    "redux": "3.3.1"
   }
 }
